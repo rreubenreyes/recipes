@@ -30,18 +30,18 @@ _unicode_fraction_descriptors = {
 }
 
 
-def _replace_fraction(unicode_name):
+def _replace_fraction(unicode_name) -> str:
     fraction_parts = unicode_name.split("FRACTION")[1].strip().split(" ")
 
     return "/".join([str(_unicode_fraction_descriptors[x]) for x in fraction_parts])
 
 
-def _is_latin(string: str):
+def _is_latin(string: str) -> bool:
     end_of_latin_unicode_space = int("0x1EFF", 16)
     return ord(string) <= end_of_latin_unicode_space
 
 
-def replace(string: str):
+def replace(string: str) -> str:
     if _is_latin(string):
         un = unicodedata.name(string)
         if "FRACTION" in un:
@@ -52,5 +52,5 @@ def replace(string: str):
     return ""
 
 
-def replace_all(string: str):
+def replace_all(string: str) -> str:
     return "".join([replace(char) for char in string]).strip()
